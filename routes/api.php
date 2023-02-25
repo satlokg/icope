@@ -27,10 +27,10 @@ Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'getModules'])
 Route::post('/pages/getAssessmentQuestions', [AssessmentController::class, 'getAssessment']);
 Route::get('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'getPrePostTest']);
 
-Route::get('getCountries', [AssessmentController::class, 'getCountries']);
+// Route::get('getCountries', [AssessmentController::class, 'getCountries']);
 
 Route::post('/pages/submitAssessmentQuestions', [AssessmentController::class, 'submitAssessment']);
 Route::post('/pages/submitQuestionnaireQuestions', [AssessmentController::class, 'submitAssessment']);
 
-Route::post('submitgetPrePostTest', [CommonController::class, 'submitgetPrePostTest']);
+// Route::post('submitgetPrePostTest', [CommonController::class, 'submitgetPrePostTest']);
 });

@@ -28,7 +28,7 @@ class LoginController extends Controller
             $peaple->username = $req->email;
             $peaple->email_otp = $otp;
             $peaple->save();
-            $this->sendOtp($req->email,$otp);
+            // $this->sendOtp($req->email,$otp);
         }
         
         $data['message'] = 'OTP send successfully';
