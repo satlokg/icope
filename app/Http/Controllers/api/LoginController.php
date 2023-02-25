@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Str;
+use Auth;
 class LoginController extends Controller
 {
     public $successStatus = 200;
@@ -29,6 +30,7 @@ class LoginController extends Controller
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         }
+        
         $data['message'] = 'OTP send successfully';
         return response()->json(['status' => 1,'success' => true, 'message' => 'OTP send successfully','otp'=>$peaple->email_otp], 200);
     }
@@ -49,13 +51,27 @@ public function validateOtp(Request $req){
 
         $p->email_otp = '';
         $p->save();
+        Auth::loginUsingId($p->id, TRUE);
         $p->pre_evaluation=false;
         $p->country='';
-        return response()->json(['status' => 1,'success' => true, 'message' => 'Otp verified','data'=>$p], 200);
+        if ($p->api_token !== NULL) {
+            $token['token'] = $p->api_token;
+        } else {
+            $token['token'] = self::updateToken();
+        }
+        return response()->json(['status' => 1,'success' => true, 'message' => 'Otp verified','data'=>$p,'token'=>$token['token']], 200);
     } else {
         return response()->json(['success' => 0, 'message' => 'Wrong Otp'], 200);
     }
 }
+static function updateToken() {
+    $token = Str::random(60);
+    $user = User::find(Auth::user()->id);
+    $user->forceFill([
+        'api_token' => hash('sha256', $token),
+    ])->save();
 
+    return ['token' => $user->api_token];
+}
 
 }

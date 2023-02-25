@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::post('/users/sendOTP', [LoginController::class, 'getOtp']);
 Route::post('/users/validateOTP', [LoginController::class, 'validateOtp']);
-
+Route::group(['middleware' => 'apiauth'], function (){
 Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'getModules']);
 Route::post('/pages/getAssessmentQuestions', [AssessmentController::class, 'getAssessment']);
 Route::get('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'getPrePostTest']);
@@ -33,3 +33,4 @@ Route::post('/pages/submitAssessmentQuestions', [AssessmentController::class, 's
 Route::post('/pages/submitQuestionnaireQuestions', [AssessmentController::class, 'submitAssessment']);
 
 Route::post('submitgetPrePostTest', [CommonController::class, 'submitgetPrePostTest']);
+});
