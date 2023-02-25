@@ -22,7 +22,7 @@ Route::get('/auth-user', function () {
     return view('otpLogin');
 })->middleware('checkLogin')->name('otpPage');
 Route::get('/', function () {
-    return view('user_home');
+   // return view('user_home');
 })->name('user.home');
 
 Route::post('getOTP', [UserController::class, 'getOtp'])->name('getOTP');
