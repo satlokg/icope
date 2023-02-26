@@ -31,6 +31,7 @@ Route::post('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'g
 
 Route::post('/pages/submitAssessmentQuestions', [AssessmentController::class, 'submitAssessmentQuestions']);
 Route::post('/pages/submitQuestionnaireQuestions', [AssessmentController::class, 'submitQuestionnaireQuestions']);
+Route::post('/searchContent', [AssessmentController::class, 'searchContent']);
 
 // Route::post('submitgetPrePostTest', [CommonController::class, 'submitgetPrePostTest']);
 });
