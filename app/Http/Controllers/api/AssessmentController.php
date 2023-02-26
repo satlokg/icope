@@ -12,7 +12,11 @@ class AssessmentController extends Controller
 {
     public function getModules(Request $req,){
         $email = $req->email;
-        $module = Module::orderBy('id','desc')->get();
+        $module = Module::orderBy('id','desc');
+        if($req->moduleId){
+            $module = $module->where('id',$req->moduleId );
+        }
+        $module= $module->get();
         return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$module], 200);
     }
     public function getAssessment(Request $req){
