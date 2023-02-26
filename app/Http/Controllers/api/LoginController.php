@@ -32,7 +32,7 @@ class LoginController extends Controller
         }
         
         $data['message'] = 'OTP send successfully';
-        return response()->json(['status' => 1,'success' => true, 'message' => 'OTP send successfully','otp'=>$peaple->email_otp], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'OTP send successfully','otp'=>$peaple->email_otp], 200);
     }
 
     function sendOtp($email, $otp)
@@ -59,7 +59,7 @@ public function validateOtp(Request $req){
         } else {
             $token['token'] = self::updateToken();
         }
-        return response()->json(['status' => 1,'success' => true, 'message' => 'Otp verified','data'=>$p,'token'=>$token['token']], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','data'=>$p,'token'=>$token['token']], 200);
     } else {
         return response()->json(['success' => 0, 'message' => 'Wrong Otp'], 200);
     }
