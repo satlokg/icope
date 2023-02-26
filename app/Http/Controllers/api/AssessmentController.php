@@ -94,13 +94,14 @@ class AssessmentController extends Controller
 
                 $keyword = @$request->param;
                 if (!empty($keyword)) {
-                    $condition[] = ['Modules.status' => 1];
-                    $condition[] = [
-                        'OR' => [
-                            'Modules.title LIKE' => '%' . $keyword . '%',
-                            'Modules.description LIKE' => '%' . $keyword . '%',
-                        ]
-                    ];
+                    $query = Module::query()
+                    ->where('status',1)
+                    ->where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('description', 'LIKE', "%{$keyword}%")
+                    ->get();
+
+
+                    
                     $query = Module::find('all')->where($condition);
 
                     if ($query) {
@@ -111,18 +112,18 @@ class AssessmentController extends Controller
                             $description_count = substr_count($data->description, $keyword);
                             $dataArray[$key]['count'] = ((int) $title_count + (int) $description_count);
                         }
-                        $response = array('status' => 'success', 'data' => $dataArray);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$dataArray], 200);
+
                     }
                 }
             } else {
-                $response = array('status' => 'failed', 'message' => 'Please enter params.');
+        return response()->json(['status' => 'success','success' => true, 'message' => 'Please enter params.'], 200);
+
             }
         }
 
 
-        $this->response->type('application/json');
-        $this->response->body(json_encode($response));
-        return $this->response;
+       
     }
 
 }
