@@ -36,7 +36,7 @@ class AssessmentController extends Controller
                         }
                         $totalQuestion++;
                     }
-                    $Answer = Answers::where(userID,$deviceToken)->where('moduleId', $moduleIID)->first();
+                    $Answer = Answer::where(userID,$deviceToken)->where('moduleId', $moduleIID)->first();
                     if (!$Answer) {
                         $Answer= new Answer();
                     }
@@ -64,7 +64,7 @@ class AssessmentController extends Controller
                 $totalQuestion++;
             }
             $type_id = time() . '__' . $request->userID . '__' . time();
-            $Answer = Answers::where('userID',$deviceToken)->where('moduleId', $moduleIID)->first();
+            $Answer = Answer::where('userID',$deviceToken)->where('moduleId', $moduleIID)->first();
                     if (!$Answer) {
                         $Answer= new Answer();
                     }
