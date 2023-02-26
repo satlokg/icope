@@ -14,9 +14,11 @@ class AssessmentController extends Controller
         $email = $req->email;
         $module = Module::orderBy('id','desc');
         if($req->moduleId){
-            $module = $module->where('id',$req->moduleId );
+            $module = $module->where('id',$req->moduleId )->first();
+        }else{
+            $module= $module->get();
         }
-        $module= $module->get();
+        
         return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$module], 200);
     }
     public function getAssessment(Request $req){
