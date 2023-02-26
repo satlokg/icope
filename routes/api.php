@@ -25,7 +25,7 @@ Route::post('/users/validateOTP', [LoginController::class, 'validateOtp']);
 Route::group(['middleware' => 'apiauth'], function (){
 Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'getModules']);
 Route::post('/pages/getAssessmentQuestions', [AssessmentController::class, 'getAssessment']);
-Route::get('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'getPrePostTest']);
+Route::post('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'getPrePostTest']);
 
 // Route::get('getCountries', [AssessmentController::class, 'getCountries']);
 
