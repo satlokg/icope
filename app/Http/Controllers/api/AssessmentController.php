@@ -99,11 +99,6 @@ class AssessmentController extends Controller
                     ->where('title', 'LIKE', "%{$keyword}%")
                     ->orWhere('description', 'LIKE', "%{$keyword}%")
                     ->get();
-
-
-                    
-                    $query = Module::find('all')->where($condition);
-
                     if ($query) {
                         foreach ($query as $key => $data) {
                             $dataArray[$key]['id'] = $data->id;
