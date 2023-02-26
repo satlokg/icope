@@ -17,11 +17,11 @@ class AssessmentController extends Controller
     }
     public function getAssessment(Request $req){
         $assessment = Assessment::where('moduleId', $req->module_id)->get();
-        return response()->json(['status' => 1,'success' => true, 'message' => 'success','data'=>$assessment], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$assessment], 200);
     }
     public function getPrePostTest(Request $req){
         $assessment = Assessment::where('moduleId', $req->module_id)->where('is_first_question', 1)->get();
-        return response()->json(['status' => 1,'success' => true, 'message' => 'success','data'=>$assessment], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$assessment], 200);
     }
     public function submitAssessmentQuestions(Request $request){
         $moduleIID = ($this->request->module_id);
@@ -46,7 +46,7 @@ class AssessmentController extends Controller
                     $Answer->answer = json_encode($request->all());
                     $Answer->status = 1;
                 if( $Answer->save()){
-                    return response()->json(['status' => 1,'success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
+                    return response()->json(['status' => 'success','success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
                 }else{
                     return response()->json(['status' => 0,'success' => false, 'message' => 'something went wrong'], 200);
                 }
@@ -78,7 +78,7 @@ class AssessmentController extends Controller
                 $Answer->status = 1;
                 $Answer->created = date('Y-m-d H:i:s');
                 if( $Answer->save()){
-                    return response()->json(['status' => 1,'success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
+                    return response()->json(['status' => 'success','success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
                 }else{
                     return response()->json(['status' => 0,'success' => false, 'message' => 'something went wrong'], 200);
                 }
