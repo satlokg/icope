@@ -24,14 +24,14 @@ class AssessmentController extends Controller
         return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$assessment], 200);
     }
     public function submitAssessmentQuestions(Request $request){
-        $moduleIID = ($this->request->module_id);
-                    $deviceToken = $this->request->device_id;
-                    $assestments = Assestments::where('moduleId', $moduleIID)->get()->toArray();
+        $moduleIID = ($request->module_id);
+                    $deviceToken = $request->device_id;
+                    $assestments = Assestments::where('moduleId', $moduleIID)->get();
                     $totalQuestion = 0;
                     $CorrectAnswer = 0;
                     foreach ($assestments as $assestment) {
                         $qu = "question_" . $assestment->id;
-                        if ($this->request->$qu == $assestment->answer) {
+                        if ($request->$qu == $assestment->answer) {
                             $CorrectAnswer++;
                         }
                         $totalQuestion++;
@@ -53,12 +53,12 @@ class AssessmentController extends Controller
 
     }
     public function submitQuestionnaireQuestions(Request $request){
-        $assestments = Assessment::where('is_first_question' , '1')->get()->toArray();
+        $assestments = Assessment::where('is_first_question' , '1')->get();
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
                 $qu = "question_" . $assestment->id;
-                if ($this->request->$qu == $assestment->answer) {
+                if ($request->$qu == $assestment->answer) {
                     $CorrectAnswer++;
                 }
                 $totalQuestion++;
