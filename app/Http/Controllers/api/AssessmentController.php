@@ -20,7 +20,7 @@ class AssessmentController extends Controller
         return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$assessment], 200);
     }
     public function getPrePostTest(Request $req){
-        $assessment = Assessment::where('moduleId', $req->module_id)->where('is_first_question', 1)->get();
+        $assessment = Assessment::where('is_first_question', 1)->get();
         return response()->json(['status' => 'success','success' => true, 'message' => 'success','data'=>$assessment], 200);
     }
     public function submitAssessmentQuestions(Request $request){
@@ -64,7 +64,7 @@ class AssessmentController extends Controller
                 $totalQuestion++;
             }
             $type_id = time() . '__' . $request->userID . '__' . time();
-            $Answer = Answers::where(userID,$deviceToken)->where('moduleId', $moduleIID)->first();
+            $Answer = Answers::where('userID',$deviceToken)->where('moduleId', $moduleIID)->first();
                     if (!$Answer) {
                         $Answer= new Answer();
                     }
@@ -83,6 +83,46 @@ class AssessmentController extends Controller
                     return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
     }
-    
+    function searchContent() {
+        $this->layout = false;
+        $response = array('status' => 'failed', 'message' => 'HTTP method not allowed');
+        $dataArray = [];
+        if ($this->request->is('post')) {
+            if ($this->request->data('param')) {
+
+                $this->loadModel('Modules');
+
+                $keyword = @$this->request->data('param');
+                if (!empty($keyword)) {
+                    $condition[] = ['Modules.status' => 1];
+                    $condition[] = [
+                        'OR' => [
+                            'Modules.title LIKE' => '%' . $keyword . '%',
+                            'Modules.description LIKE' => '%' . $keyword . '%',
+                        ]
+                    ];
+                    $query = $this->Modules->find('all')->where($condition);
+
+                    if ($query) {
+                        foreach ($query as $key => $data) {
+                            $dataArray[$key]['id'] = $data->id;
+                            $dataArray[$key]['module_name'] = $data->name;
+                            $title_count = substr_count($data->title, $keyword);
+                            $description_count = substr_count($data->description, $keyword);
+                            $dataArray[$key]['count'] = ((int) $title_count + (int) $description_count);
+                        }
+                        $response = array('status' => 'success', 'data' => $dataArray);
+                    }
+                }
+            } else {
+                $response = array('status' => 'failed', 'message' => 'Please enter params.');
+            }
+        }
+
+
+        $this->response->type('application/json');
+        $this->response->body(json_encode($response));
+        return $this->response;
+    }
 
 }
