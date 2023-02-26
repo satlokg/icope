@@ -36,7 +36,7 @@ class AssessmentController extends Controller
                         }
                         $totalQuestion++;
                     }
-                    $Answer = Answer::where(userID,$deviceToken)->where('moduleId', $moduleIID)->first();
+                    $Answer = Answer::where('userID',$deviceToken)->where('moduleId', $moduleIID)->first();
                     if (!$Answer) {
                         $Answer= new Answer();
                     }
@@ -54,6 +54,8 @@ class AssessmentController extends Controller
     }
     public function submitQuestionnaireQuestions(Request $request){
         $assestments = Assessment::where('is_first_question' , '1')->get();
+        $moduleIID = ($request->module_id);
+                    $deviceToken = $request->device_id;
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
