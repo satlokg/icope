@@ -48,7 +48,7 @@ class AssessmentController extends Controller
                 if( $Answer->save()){
                     return response()->json(['status' => 'success','success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
                 }else{
-                    return response()->json(['status' => 0,'success' => false, 'message' => 'something went wrong'], 200);
+                    return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
 
     }
@@ -80,7 +80,7 @@ class AssessmentController extends Controller
                 if( $Answer->save()){
                     return response()->json(['status' => 'success','success' => true, 'message' => 'Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
                 }else{
-                    return response()->json(['status' => 0,'success' => false, 'message' => 'something went wrong'], 200);
+                    return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
     }
     
