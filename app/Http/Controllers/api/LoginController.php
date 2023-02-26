@@ -53,6 +53,7 @@ public function validateOtp(Request $req){
         $p->save();
         Auth::loginUsingId($p->id, TRUE);
         $p->pre_evaluation=false;
+        $p->user=['is_pretest_completed'=>($p->is_pretest_completed==1)?true:false];
         $p->country='';
         if ($p->api_token !== NULL) {
             $token['token'] = $p->api_token;
