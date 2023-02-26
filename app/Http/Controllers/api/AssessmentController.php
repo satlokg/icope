@@ -46,7 +46,7 @@ class AssessmentController extends Controller
                     $Answer->answer = json_encode($request->all());
                     $Answer->status = 1;
                 if( $Answer->save()){
-                    return response()->json(['status' => 'success','success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
+                    return response()->json(['status' => 'success','success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
                 }else{
                     return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
@@ -80,7 +80,7 @@ class AssessmentController extends Controller
                 $Answer->status = 1;
                 $Answer->created = date('Y-m-d H:i:s');
                 if( $Answer->save()){
-                    return response()->json(['status' => 'success','success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
+                    return response()->json(['status' => 'success','success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
                 }else{
                     return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
@@ -88,8 +88,8 @@ class AssessmentController extends Controller
     function searchContent(Request $request) {
         $response = array('status' => 'failed', 'message' => 'HTTP method not allowed');
         $dataArray = [];
-        if ($request->has('post')) {
-            if ($request->data('param')) {
+        if ($request->post) {
+            if ($request->param) {
 
 
                 $keyword = @$request->param;
