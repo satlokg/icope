@@ -29,8 +29,8 @@ Route::get('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'ge
 
 // Route::get('getCountries', [AssessmentController::class, 'getCountries']);
 
-Route::post('/pages/submitAssessmentQuestions', [AssessmentController::class, 'submitAssessment']);
-Route::post('/pages/submitQuestionnaireQuestions', [AssessmentController::class, 'submitAssessment']);
+Route::post('/pages/submitAssessmentQuestions', [AssessmentController::class, 'submitAssessmentQuestions']);
+Route::post('/pages/submitQuestionnaireQuestions', [AssessmentController::class, 'submitQuestionnaireQuestions']);
 
 // Route::post('submitgetPrePostTest', [CommonController::class, 'submitgetPrePostTest']);
 });
