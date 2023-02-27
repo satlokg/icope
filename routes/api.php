@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/users/sendOTP', [LoginController::class, 'getOtp']);
 Route::post('/users/validateOTP', [LoginController::class, 'validateOtp']);
 Route::group(['middleware' => 'apiauth'], function (){
-Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'getModules']);
+Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'modulelist']);
 Route::post('/pages/getAssessmentQuestions', [AssessmentController::class, 'getAssessment']);
 Route::post('/pages/getQuestionnaireQuestions', [AssessmentController::class, 'getPrePostTest']);
 

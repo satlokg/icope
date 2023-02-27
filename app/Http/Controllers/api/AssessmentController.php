@@ -159,7 +159,7 @@ class AssessmentController extends Controller
             
         }
         if ($request->moduleId) {
-            $userservices = $userservices->where('id', $request->moduleId)->first();
+            $userservices = $userservices->where('id', $request->moduleId);
         } 
         
         $userservices = $userservices->get();
