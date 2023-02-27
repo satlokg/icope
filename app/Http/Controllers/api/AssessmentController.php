@@ -97,7 +97,7 @@ class AssessmentController extends Controller
             $Answer->type_id = $type_id;
             $Answer->attempted_correct_questions = $CorrectAnswer;
             $Answer->attempted_total_questions = $totalQuestion;
-            $Answer->countryCode = $request->countryCode;
+            $Answer->countryCode = $request->country_code;
             $Answer->userID = $request->userID;
             $Answer->answer = json_encode($request->all());
             $Answer->status = 1;
