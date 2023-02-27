@@ -57,10 +57,8 @@ class AssessmentController extends Controller
         $Answer->moduleId = $moduleIID;
         $Answer->userID = $deviceToken;   ///$request->data->userID;
         $data = $request->all();
-        $data['moduleID'] = $request->module_id;
-        $data['userID'] =  $request->device_id;
-        unset($data['module_id']);
-        unset($data['device_id']);
+        $data = $this->replace_key($data,'module_id', 'moduleID');
+        $data = $this->replace_key($data,'device_id', 'deviceID');
         $Answer->answer = json_encode($data);
         $Answer->status = 1;
         if ($Answer->save()) {
@@ -69,6 +67,16 @@ class AssessmentController extends Controller
             return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
         }
     }
+  
+ 
+public function replace_key($arr, $oldkey, $newkey) {
+	if(array_key_exists( $oldkey, $arr)) {
+		$keys = array_keys($arr);
+    	$keys[array_search($oldkey, $keys)] = $newkey;
+	    return array_combine($keys, $arr);	
+	}
+    return $arr;    
+}
     public function submitQuestionnaireQuestions(Request $request)
     {
         $deviceToken = $request->deviceId;
