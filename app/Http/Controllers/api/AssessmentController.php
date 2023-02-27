@@ -38,7 +38,7 @@ class AssessmentController extends Controller
     {
         $moduleIID = ($request->module_id);
         $deviceToken = $request->device_id;
-        $assestments = Assestments::where('moduleId', $moduleIID)->get();
+        $assestments = Assessment::where('moduleId', $moduleIID)->get();
         $totalQuestion = 0;
         $CorrectAnswer = 0;
         foreach ($assestments as $assestment) {
