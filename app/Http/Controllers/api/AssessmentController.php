@@ -168,8 +168,8 @@ class AssessmentController extends Controller
         foreach ($userservices as $userD) {
             $Darray[$i]['assestment'] = 0;
             if (@$DeviceID != '') {
-                $MMOD = $userD->id - 1;
-                $Darray[$i]['assestment'] = Answer::where('moduleId' , $MMOD)->where('userID' , $DeviceID)->count();
+                $MMOD = $userD->id ;
+                $Darray[$i]['assestment'] = Answer::where('moduleId' , $MMOD - 1)->where('userID' , $DeviceID)->count();
             }
             $Darray[$i]['moduleId'] = ($userD->id) ? $userD->id : '';
             $Darray[$i]['name'] = ($userD->name) ? $userD->name : '';
