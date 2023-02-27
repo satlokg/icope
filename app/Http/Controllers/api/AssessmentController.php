@@ -65,10 +65,14 @@ class AssessmentController extends Controller
     }
     public function submitQuestionnaireQuestions(Request $request)
     {
-        $deviceToken = $request->device_id;
         $countryCode = $request->country_code;
-        $questionnaireType = $request->questionnaireType;
         $questions = $request->question;
+        $questionnaireType = 'pre';
+        $deviceToken = $request->query('device-token');
+        $country_code = $request->query('country_code');
+        if ($request->query('questionnaire-type') && $request->query('questionnaire-type') == 'post') {
+            $questionnaireType = 'post';
+        }
 
         $assestments = Assessment::where('is_first_question', '1')->get();
         $usr = User::where('email', base64_decode($deviceToken))->first();
