@@ -46,7 +46,7 @@ class LoginController extends Controller
     }
 
 public function validateOtp(Request $req){
-    $p = User::where('email', $req->email)->where('email_otp', $req->otp)->first();
+    $p = User::select('id','email','is_pretest_completed')->where('email', $req->email)->where('email_otp', $req->otp)->first();
     if ($p) {
 
         $p->email_otp = '';
