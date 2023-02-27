@@ -37,7 +37,7 @@ class AssessmentController extends Controller
     public function submitAssessmentQuestions(Request $request)
     {
        
-        $moduleIID = ($request->module_id);
+        $moduleIID = ($request->module_id - 1);
         $deviceToken = $request->device_id;
         $assestments = Assessment::where('moduleId', $moduleIID)->get();
         $totalQuestion = 0;
@@ -54,11 +54,12 @@ class AssessmentController extends Controller
             $Answer = new Answer();
         }
 
-        $Answer->moduleId = $moduleIID - 1;
+        $Answer->moduleId = $moduleIID;
         $Answer->userID = $deviceToken;   ///$request->data->userID;
         $data = $request->all();
         $data = $this->replace_key($data,'module_id', 'moduleID');
         $data = $this->replace_key($data,'device_id', 'userID');
+        // $data['moduleID']= $data['moduleID']+1;
         $Answer->answer = json_encode($data);
         $Answer->status = 1;
         if ($Answer->save()) {
