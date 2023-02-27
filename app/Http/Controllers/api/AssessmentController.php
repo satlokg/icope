@@ -36,7 +36,7 @@ class AssessmentController extends Controller
     }
     public function submitAssessmentQuestions(Request $request)
     {
-        $moduleIID = ($request->module_id);
+        $moduleIID = ($request->module_id-1);
         $deviceToken = $request->device_id;
         $assestments = Assessment::where('moduleId', $moduleIID)->get();
         $totalQuestion = 0;
