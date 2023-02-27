@@ -36,11 +36,7 @@ class AssessmentController extends Controller
     }
     public function submitAssessmentQuestions(Request $request)
     {
-        $data = $request->all();
-        $data['moduleID'] = $request->module_id;
-        $data['userID'] = $request->device_id;
-        unset($data['moduleID']);
-        unset($data['device_id']);
+       
         $moduleIID = ($request->module_id-1);
         $deviceToken = $request->device_id;
         $assestments = Assessment::where('moduleId', $moduleIID)->get();
@@ -60,6 +56,11 @@ class AssessmentController extends Controller
 
         $Answer->moduleId = $moduleIID;
         $Answer->userID = $deviceToken;   ///$request->data->userID;
+        $data = $request->all();
+        $data['moduleID'] = $request->module_id;
+        $data['userID'] = $request->device_id;
+        unset($data['module_id']);
+        unset($data['device_id']);
         $Answer->answer = json_encode($data);
         $Answer->status = 1;
         if ($Answer->save()) {
