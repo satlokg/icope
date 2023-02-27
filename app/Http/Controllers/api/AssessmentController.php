@@ -58,7 +58,7 @@ class AssessmentController extends Controller
         $Answer->answer = json_encode($request->all());
         $Answer->status = 1;
         if ($Answer->save()) {
-            return response()->json(['status' => 'success', 'success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
+            return response()->json(['status' => 'success', 'success' => true, 'message' => 'Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
         } else {
             return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
         }
