@@ -8,6 +8,7 @@ use App\Models\Module;
 use App\Models\Answer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class AssessmentController extends Controller
 {
@@ -53,7 +54,7 @@ class AssessmentController extends Controller
         }
 
         $Answer->moduleId = $moduleIID;
-        $Answer->userID = $deviceToken;   ///$this->request->data->userID;
+        $Answer->userID = $deviceToken;   ///$request->data->userID;
         $Answer->answer = json_encode($request->all());
         $Answer->status = 1;
         if ($Answer->save()) {
@@ -140,5 +141,49 @@ class AssessmentController extends Controller
         } else {
             return response()->json(['status' => 'success', 'success' => true, 'message' => 'Please enter params.'], 200);
         }
+    }
+
+    public function modulelist(Request $request, $Type = NULL) {
+       
+        @$TYPE = ($Type) ? $Type : $request->TYPE;
+        @$DeviceID = (@$request->deviceId) ? @$request->deviceId : 1;
+
+       
+        $keyword = @$request->keyword;
+       
+        $Darray = array();
+        $i = 0;
+        $userservices = Module::orderBy('id', 'desc')->where('status', 1);
+        if(@$keyword != ''){
+            $userservices = $userservices->orWhere('description', 'LIKE', "%{$keyword}%");
+            
+        }
+        if ($request->moduleId) {
+            $userservices = $userservices->where('id', $request->moduleId)->first();
+        } 
+        
+        $userservices = $userservices->get();
+        
+        //echo "<pre>"; print_r($userservices); die;
+        foreach ($userservices as $userD) {
+            $Darray[$i]['assestment'] = 0;
+            if (@$DeviceID != '') {
+                $MMOD = $userD->id;
+                $Darray[$i]['assestment'] = Answer::where('moduleId' , $MMOD)->where('userID' , $DeviceID)->count();
+            }
+            $Darray[$i]['moduleId'] = ($userD->id) ? $userD->id : '';
+            $Darray[$i]['name'] = ($userD->name) ? $userD->name : '';
+            $Darray[$i]['title'] = ($userD->title) ? $userD->title : '';
+            $Darray[$i]['displayOrder'] = ($userD->displayOrder) ? $userD->displayOrder : '';
+            $Darray[$i]['url'] = URL('/') . "pages/who/" . $userD->id . "/" . $DeviceID;
+            $Darray[$i]['PPTURL'] = URL('/') . "ppt/PPT_" . $userD->id . ".mp4";
+            $Darray[$i]['icon'] = URL('/') . "icon/Module_" . $userD->id . ".png";
+            $Darray[$i]['roleplay'] = ($userD->roleplay) ? $userD->roleplay : '';
+            $Darray[$i]['created'] = ($userD->created) ? date('Y-m-d H:i:s', strtotime($userD->created)) : '';
+            $i++;
+        }
+        $response['status'] = "success";
+        $response['data'] = ($Darray) ? $Darray : array();
+        return $response;
     }
 }

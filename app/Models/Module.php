@@ -26,4 +26,7 @@ class Module extends Model
     {
        return $this->hasMany(SubmitAssessment::class);
     }
+    public function is_complited(){
+        return ($this->hasOne(Answer::class))?true:false;
+    }
 }
