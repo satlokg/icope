@@ -123,7 +123,7 @@ class AssessmentController extends Controller
             $keyword = @$request->param;
             if (!empty($keyword)) {
                 $query = Module::where('status', 1)
-                    ->where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('title', 'LIKE', "%{$keyword}%")
                     ->orWhere('description', 'LIKE', "%{$keyword}%")
                     ->get();
                 if ($query) {
