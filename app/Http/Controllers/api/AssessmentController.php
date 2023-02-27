@@ -65,7 +65,6 @@ class AssessmentController extends Controller
     }
     public function submitQuestionnaireQuestions(Request $request)
     {
-        $countryCode = $request->country_code;
         $questions = $request->question;
         $questionnaireType = 'pre';
         $deviceToken = $request->query('device-token');
@@ -102,7 +101,8 @@ class AssessmentController extends Controller
             $Answer->answer = json_encode($request->all());
             $Answer->status = 1;
             $Answer->created = date('Y-m-d H:i:s');
-            if ($Answer->save()) {
+            $r=$Answer->save();
+            if ($r) {
                 return response()->json(['status' => 'success', 'success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
             } else {
                 return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
