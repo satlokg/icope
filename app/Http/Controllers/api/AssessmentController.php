@@ -67,7 +67,7 @@ class AssessmentController extends Controller
     {
         $questions = $request->question;
         $questionnaireType = 'pre';
-        $deviceToken = $request->query('device-token');
+        $deviceToken = $request->query('deviceId');
         $country_code = $request->query('country_code');
         if ($request->query('questionnaire-type') && $request->query('questionnaire-type') == 'post') {
             $questionnaireType = 'post';
