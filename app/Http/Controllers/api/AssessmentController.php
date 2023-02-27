@@ -94,7 +94,7 @@ class AssessmentController extends Controller
             $Answer->attempted_correct_questions = $CorrectAnswer;
             $Answer->attempted_total_questions = $totalQuestion;
             $Answer->countryCode = $request->countryCode;
-            $Answer->userID = $usr->id;
+            $Answer->userID = $request->userID;
             $Answer->answer = json_encode($request->all());
             $Answer->status = 1;
             $Answer->created = date('Y-m-d H:i:s');
