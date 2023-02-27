@@ -32,7 +32,7 @@ class LoginController extends Controller
         }
         
         $data['message'] = 'OTP send successfully';
-        return response()->json(['status' => 'success','success' => true, 'message' => 'OTP sent successfully','otp'=>$peaple->email_otp], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'OTP has been sent successfully. Please check your mail.','otp'=>$peaple->email_otp], 200);
     }
 
     function sendOtp($email, $otp)
@@ -52,14 +52,14 @@ public function validateOtp(Request $req){
         $p->email_otp = '';
         $p->save();
         Auth::loginUsingId($p->id, TRUE);
-        $p->user=['is_pretest_completed'=>($p->is_pretest_completed==1)?true:false];
+        $user=['is_pretest_completed'=>($p->is_pretest_completed==1)?true:false];
         $p->country='';
         if ($p->api_token !== NULL) {
             $token['token'] = $p->api_token;
         } else {
             $token['token'] = self::updateToken();
         }
-        return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','data'=>$p,'token'=>$token['token']], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','user'=>$user,'token'=>$token['token']], 200);
     } else {
         return response()->json(['success' => 0, 'message' => 'Wrong Otp'], 200);
     }
