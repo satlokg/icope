@@ -58,7 +58,7 @@ class AssessmentController extends Controller
         $Answer->userID = $deviceToken;   ///$request->data->userID;
         $data = $request->all();
         $data['moduleID'] = $request->module_id;
-        $data['userID'] = $request->device_id;
+        $data['userID'] =  $request->device_id;
         unset($data['module_id']);
         unset($data['device_id']);
         $Answer->answer = json_encode($data);
