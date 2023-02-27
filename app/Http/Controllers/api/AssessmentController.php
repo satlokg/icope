@@ -153,7 +153,7 @@ class AssessmentController extends Controller
        
         $Darray = array();
         $i = 0;
-        $userservices = Module::orderBy('displayOrder', 'asc')->where('status', 1)->whereNotIn('id', [1,13]);
+        $userservices = Module::orderBy('displayOrder', 'asc')->where('status', 1);
         if(@$keyword != ''){
             $userservices = $userservices->orWhere('description', 'LIKE', "%{$keyword}%");
             
