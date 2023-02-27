@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\Module;
 use App\Models\Answer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AssessmentController extends Controller
@@ -59,9 +60,15 @@ class AssessmentController extends Controller
 
     }
     public function submitQuestionnaireQuestions(Request $request){
+        $deviceToken = $request->device_id;
+        $countryCode = $request->country_code;
+        $questionnaireType = $request->questionnaireType;
+        $questions = $request->question;
+
         $assestments = Assessment::where('is_first_question' , '1')->get();
+        $usr = User::where('email', base64_decode($deviceToken))->first();
         $moduleIID = ($request->module_id);
-                    $deviceToken = $request->device_id;
+                    
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
@@ -71,7 +78,8 @@ class AssessmentController extends Controller
                 }
                 $totalQuestion++;
             }
-            $type_id = time() . '__' . $request->userID . '__' . time();
+            if ($questionnaireType == 'post') {
+            $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID',$deviceToken)->where('moduleId', $moduleIID)->first();
                     if (!$Answer) {
                         $Answer= new Answer();
@@ -81,7 +89,7 @@ class AssessmentController extends Controller
                 $Answer->attempted_correct_questions = $CorrectAnswer;
                 $Answer->attempted_total_questions = $totalQuestion;
                 $Answer->countryCode = $request->countryCode;
-                $Answer->userID = $request->userID;
+                $Answer->userID = $usr->id;
                 $Answer->answer = json_encode($request->all());
                 $Answer->status = 1;
                 $Answer->created = date('Y-m-d H:i:s');
@@ -90,6 +98,16 @@ class AssessmentController extends Controller
                 }else{
                     return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
                 }
+            }else{
+                if ($usr) {
+                    $usr->is_pretest_completed = 1;
+                    if($usr->save()){
+                        return response()->json(['status' => 'success','success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
+                    }else{
+                        return response()->json(['status' => 'failed','success' => false, 'message' => 'something went wrong'], 200);
+                    }
+                }
+            }
     }
     function searchContent(Request $request) {
         $response = array('status' => 'failed', 'message' => 'HTTP method not allowed');
