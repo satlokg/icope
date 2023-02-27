@@ -65,13 +65,10 @@ class AssessmentController extends Controller
     }
     public function submitQuestionnaireQuestions(Request $request)
     {
+        $deviceToken = $request->deviceId;
+        $countryCode = $request->country_code;
+        $questionnaireType = $request->questionnaireType;
         $questions = $request->question;
-        $questionnaireType = 'pre';
-        $deviceToken = $request->query('deviceId');
-        $country_code = $request->query('country_code');
-        if ($request->query('questionnaire-type') && $request->query('questionnaire-type') == 'post') {
-            $questionnaireType = 'post';
-        }
 
         $assestments = Assessment::where('is_first_question', '1')->get();
         $usr = User::where('email', base64_decode($deviceToken))->first();
@@ -96,13 +93,12 @@ class AssessmentController extends Controller
             $Answer->type_id = $type_id;
             $Answer->attempted_correct_questions = $CorrectAnswer;
             $Answer->attempted_total_questions = $totalQuestion;
-            $Answer->countryCode = $request->country_code;
+            $Answer->countryCode = $request->countryCode;
             $Answer->userID = $request->userID;
             $Answer->answer = json_encode($request->all());
             $Answer->status = 1;
             $Answer->created = date('Y-m-d H:i:s');
-            $r=$Answer->save();
-            if ($r) {
+            if ($Answer->save()) {
                 return response()->json(['status' => 'success', 'success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
             } else {
                 return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
