@@ -102,10 +102,10 @@ class AssessmentController extends Controller
             } else {
                 return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
             }
-        } else {
-            if ($usr) {
+        }else{
+            if($usr){
                 $usr->is_pretest_completed = 1;
-                if ($usr->save()) {
+                if($usr->save()){
                     return response()->json(['status' => 'success', 'success' => true, 'message' => base64_encode('Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion)], 200);
                 } else {
                     return response()->json(['status' => 'failed', 'success' => false, 'message' => 'something went wrong'], 200);
