@@ -91,14 +91,15 @@ public function replace_key($arr, $oldkey, $newkey) {
         $moduleIID = ($request->module_id);
         $totalQuestion = 0;
         $CorrectAnswer = 0;
+        $r=$request->all();
         foreach ($assestments as $assestment) {
             $qu = 'question_' . $assestment->id;
-            if ($request->all()["$qu"] == $assestment->answer) {
+            if ($r["$qu"] == $assestment->answer) {
                 $CorrectAnswer++;
             }
             $totalQuestion++;
         }
-        echo $request->all()["$qu"]; echo 1; echo $assestment->answer; die;
+        echo $r["$qu"]; echo 1; echo $assestment->answer; die;
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
