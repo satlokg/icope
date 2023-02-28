@@ -39,7 +39,7 @@ class AssessmentController extends Controller
        
         $moduleIID = ($request->module_id - 1);
         $deviceToken = $request->device_id;
-        $assestments = Assessment::where('moduleId', $moduleIID+1)->get();
+        $assestments = Assessment::where('moduleId', $moduleIID)->get();
         $totalQuestion = 0;
         $CorrectAnswer = 0;
         foreach ($assestments as $assestment) {
@@ -101,7 +101,7 @@ public function replace_key($arr, $oldkey, $newkey) {
         }
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
-            $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID+1)->first();
+            $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
             if (!$Answer) {
                 $Answer = new Answer();
             }
