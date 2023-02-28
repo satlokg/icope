@@ -99,6 +99,7 @@ public function replace_key($arr, $oldkey, $newkey) {
             }
             $totalQuestion++;
         }
+        echo $request->$qu; echo '\n'; echo $assestment->answer;die;
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
