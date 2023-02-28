@@ -99,7 +99,7 @@ print_r($assestments);
             }
             $totalQuestion++;
         }
-        echo $request->$qu; echo 1; echo $assestment->answer; die;
+        echo $qu; echo 1; echo $assestment->answer; die;
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
