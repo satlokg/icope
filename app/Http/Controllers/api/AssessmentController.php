@@ -26,7 +26,7 @@ class AssessmentController extends Controller
     }
     public function getAssessment(Request $req)
     {
-        $assessment = Assessment::where('moduleId', $req->module_id+1)->get();
+        $assessment = Assessment::where('moduleId', $req->module_id)->get();
         return response()->json(['status' => 'success', 'success' => true, 'message' => 'success', 'data' => $assessment], 200);
     }
     public function getPrePostTest(Request $req)
