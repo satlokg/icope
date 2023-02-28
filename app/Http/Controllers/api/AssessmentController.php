@@ -101,7 +101,7 @@ public function replace_key($arr, $oldkey, $newkey) {
         }
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
-            $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
+            $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID+1)->first();
             if (!$Answer) {
                 $Answer = new Answer();
             }
