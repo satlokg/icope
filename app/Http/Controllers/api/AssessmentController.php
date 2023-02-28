@@ -62,6 +62,7 @@ class AssessmentController extends Controller
         // $data['moduleID']= $data['moduleID']+1;
         $Answer->answer = json_encode($data);
         $Answer->status = 1;
+        $Answer->created = date('Y-m-d H:i:s');
         if ($Answer->save()) {
             return response()->json(['status' => 'success', 'success' => true, 'message' => 'Thanks for submitting the assessment. You have answered ' . $CorrectAnswer . " correct answers out of " . $totalQuestion], 200);
         } else {
