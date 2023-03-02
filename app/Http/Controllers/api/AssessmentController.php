@@ -9,6 +9,7 @@ use App\Models\Answer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Validator;
 
 class AssessmentController extends Controller
 {
