@@ -29,6 +29,7 @@ class LoginController extends Controller
         $otp=random_int(100000, 999999);
         if ($peaple) {
             $peaple->email_otp = $otp;
+            $peaple->created_at = now()->addMinutes(600);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         } else {
@@ -68,7 +69,7 @@ public function validateOtp(Request $req){
     $p = User::select('id','email','is_pretest_completed','created_at')->where('email', $req->email)->where('email_otp', $req->otp)->first();
     if(strtotime($p->created_at) < strtotime(now())) 
         {
-            return response()->json(['success' => 0, 'message' => 'Otp Expired '.$p->created_at.'-'.now() ], 200);
+            return response()->json(['success' => 0, 'message' => 'Otp Expired '], 200);
         }
     if ($p) {
 
