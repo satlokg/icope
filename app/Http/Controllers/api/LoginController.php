@@ -36,7 +36,7 @@ class LoginController extends Controller
             $peaple->email = $req->email;
             $peaple->username = $req->email;
             $peaple->email_otp = $otp;
-            $peaple->created_at = now()->addMinutes(10);
+            $peaple->created_at = now()->addMinutes(600);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         }
