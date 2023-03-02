@@ -54,7 +54,7 @@ class AssessmentController extends Controller
     }
     public function submitAssessmentQuestions(Request $request)
     {
-        $validator = Validator::make($req->all(), [
+        $validator = Validator::make($request->all(), [
             'module_id' => 'required',
             'device_id' => 'required',
         ]);
