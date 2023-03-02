@@ -68,7 +68,7 @@ public function validateOtp(Request $req){
     $p = User::select('id','email','is_pretest_completed')->where('email', $req->email)->where('email_otp', $req->otp)->first();
     if(strtotime($p->created_at) < strtotime(now())) 
         {
-            return response()->json(['success' => 0, 'message' => 'Otp Expired'], 200);
+            return response()->json(['success' => 0, 'message' => 'Otp Expired',$p->created_at.'-'.now() ], 200);
         }
     if ($p) {
 
