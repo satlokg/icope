@@ -65,10 +65,10 @@ public function validateOtp(Request $req){
     return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
 
     }
-    $p = User::select('id','email','is_pretest_completed')->where('email', $req->email)->where('email_otp', $req->otp)->first();
+    $p = User::select('id','email','is_pretest_completed','created_at')->where('email', $req->email)->where('email_otp', $req->otp)->first();
     if(strtotime($p->created_at) < strtotime(now())) 
         {
-            return response()->json(['success' => 0, 'message' => 'Otp Expired',$p->created_at.'-'.now() ], 200);
+            return response()->json(['success' => 0, 'message' => 'Otp Expired ' ], 200);
         }
     if ($p) {
 
