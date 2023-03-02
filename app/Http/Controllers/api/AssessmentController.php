@@ -108,7 +108,7 @@ public function replace_key($arr, $oldkey, $newkey) {
 }
     public function submitQuestionnaireQuestions(Request $request)
     {
-        $validator = Validator::make($req->all(), [
+        $validator = Validator::make($request->all(), [
             'country_code' => 'required',
             'deviceId' => 'required',
             'userID' => 'required',
