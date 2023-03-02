@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Str;
 use Auth;
+use Validator;
 class LoginController extends Controller
 {
     public $successStatus = 200;
@@ -15,6 +16,14 @@ class LoginController extends Controller
 
     public function getOtp(Request $req)
     {
+        $validator = Validator::make($req->all(), [
+            'email' => 'required|email',
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+
+        }
         $peaple = User::where('email', $req->email)->first();
 
         $otp=random_int(100000, 999999);
@@ -27,6 +36,7 @@ class LoginController extends Controller
             $peaple->email = $req->email;
             $peaple->username = $req->email;
             $peaple->email_otp = $otp;
+            $peaple->created_at = now()->addMinutes(10);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         }
@@ -46,7 +56,20 @@ class LoginController extends Controller
     }
 
 public function validateOtp(Request $req){
+    $validator = Validator::make($req->all(), [
+        'email' => 'required|email',
+        'otp' => 'required',
+    ]);
+    
+    if ($validator->fails()) {
+    return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+
+    }
     $p = User::select('id','email','is_pretest_completed')->where('email', $req->email)->where('email_otp', $req->otp)->first();
+    if(strtotime($p->created_at) < strtotime(now())) 
+        {
+            return response()->json(['success' => 0, 'message' => 'Otp Expired'], 200);
+        }
     if ($p) {
 
         $p->email_otp = '';

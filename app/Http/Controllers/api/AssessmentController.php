@@ -14,6 +14,15 @@ class AssessmentController extends Controller
 {
     public function getModules(Request $req,)
     {
+        $validator = Validator::make($req->all(), [
+            'email' => 'required|email',
+            'otp' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+    
+        }
         $email = $req->email;
         $module = Module::orderBy('id', 'desc');
         if ($req->moduleId) {
@@ -26,6 +35,14 @@ class AssessmentController extends Controller
     }
     public function getAssessment(Request $req)
     {
+        $validator = Validator::make($req->all(), [
+            'module_id' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+    
+        }
         $assessment = Assessment::where('moduleId', $req->module_id-1)->get();
         return response()->json(['status' => 'success', 'success' => true, 'message' => 'success', 'data' => $assessment], 200);
     }
@@ -36,6 +53,15 @@ class AssessmentController extends Controller
     }
     public function submitAssessmentQuestions(Request $request)
     {
+        $validator = Validator::make($req->all(), [
+            'module_id' => 'required',
+            'device_id' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+    
+        }
        
         $moduleIID = ($request->module_id - 1);
         $deviceToken = $request->device_id;
@@ -81,6 +107,16 @@ public function replace_key($arr, $oldkey, $newkey) {
 }
     public function submitQuestionnaireQuestions(Request $request)
     {
+        $validator = Validator::make($req->all(), [
+            'country_code' => 'required',
+            'deviceId' => 'required',
+            'userID' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+    
+        }
         $deviceToken = $request->deviceId;
         $countryCode = $request->country_code;
         $questionnaireType = $request->questionnaireType;
@@ -89,17 +125,17 @@ public function replace_key($arr, $oldkey, $newkey) {
         $assestments = Assessment::where('is_first_question', '1')->get();
         $usr = User::where('email', base64_decode($deviceToken))->first();
         $moduleIID = ($request->module_id);
+
         $totalQuestion = 0;
         $CorrectAnswer = 0;
-        $r=$request->all();
+        $ar= $request->all();
         foreach ($assestments as $assestment) {
-            $qu = 'question_' . $assestment->id;
-            if (@$r["$qu"] == $assestment->answer) {
+            $qu = "question_" . $assestment->id;
+            if ($ar[$qu] == $assestment->answer) {
                 $CorrectAnswer++;
             }
             $totalQuestion++;
         }
-        echo @$r["$qu"]; echo 1; echo $assestment->answer; die;
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
@@ -161,6 +197,15 @@ public function replace_key($arr, $oldkey, $newkey) {
     }
 
     public function modulelist(Request $request, $Type = NULL) {
+        $validator = Validator::make($req->all(), [
+            'deviceId' => 'required',
+           
+        ]);
+        
+        if ($validator->fails()) {
+        return response()->json(['status' => 'error','message' => $validator->errors()->all()], 200);
+    
+        }
        
         @$TYPE = ($Type) ? $Type : $request->TYPE;
         @$DeviceID = (@$request->deviceId) ? @$request->deviceId : 1;
