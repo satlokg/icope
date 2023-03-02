@@ -198,7 +198,7 @@ public function replace_key($arr, $oldkey, $newkey) {
     }
 
     public function modulelist(Request $request, $Type = NULL) {
-        $validator = Validator::make($req->all(), [
+        $validator = Validator::make($request->all(), [
             'deviceId' => 'required',
            
         ]);
