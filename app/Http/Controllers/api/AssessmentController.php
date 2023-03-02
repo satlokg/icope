@@ -130,10 +130,10 @@ public function replace_key($arr, $oldkey, $newkey) {
 
         $totalQuestion = 0;
         $CorrectAnswer = 0;
-        $ar= $request->question; 
+        $ar= $request->all(); 
         foreach ($assestments as $assestment) {
             $qu = "question_" . $assestment->id;
-            if (@$ar->$qu == $assestment->answer) {
+            if (@$ar["$qu"] == $assestment->answer) {
                 $CorrectAnswer++;
             }
             $totalQuestion++;
