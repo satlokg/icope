@@ -112,6 +112,7 @@ public function replace_key($arr, $oldkey, $newkey) {
             'country_code' => 'required',
             'deviceId' => 'required',
             'userID' => 'required',
+            
         ]);
         
         if ($validator->fails()) {
@@ -129,14 +130,15 @@ public function replace_key($arr, $oldkey, $newkey) {
 
         $totalQuestion = 0;
         $CorrectAnswer = 0;
-        $ar= $request->all();
+        $ar= $request->all(); 
         foreach ($assestments as $assestment) {
             $qu = "question_" . $assestment->id;
-            if ($ar[$qu] == $assestment->answer) {
+            if (@$ar["$qu"] == $assestment->answer) {
                 $CorrectAnswer++;
             }
             $totalQuestion++;
         }
+        // dd($ar);
         if ($questionnaireType == 'post') {
             $type_id = time() . '__' . $usr->id . '__' . time();
             $Answer = Answer::where('userID', $deviceToken)->where('moduleId', $moduleIID)->first();
