@@ -24,7 +24,7 @@ class Apiauth
             Auth::login($user);
         }
         if (Auth::check() == false) {
-            return response()->json(['status' => 'failed', 'message' => 'Unauthenticate'], 402);
+            return response()->json(['status' => 'failed', 'message' => 'Unauthenticate'], 401);
         }
         return $next($request);
     }
