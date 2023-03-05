@@ -43,7 +43,7 @@ class LoginController extends Controller
         }
         
         $data['message'] = 'OTP send successfully';
-        return response()->json(['status' => 'success','success' => true, 'message' => 'OTP has been sent successfully. Please check your mail.','otp'=>$peaple->email_otp], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'OTP has been sent successfully. Please check your mail.'], 200);
     }
 
     function sendOtp($email, $otp)
