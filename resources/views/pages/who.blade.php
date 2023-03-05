@@ -45,9 +45,9 @@ input#to{display:none;position:relative}
 .arrow{color:#666}
 .accordion label h2 {font-size:18px; font-weight:500; margin:0 !important}
 .arrow-l1st {padding:0; margin:0;}
-.arrow-l1st li { color:#000; background:url("<?php echo $baseUrl;?>/img/arrow.png"); list-style:none; background-repeat:no-repeat; background-position:0 5px; padding-left:15px; margin-bottom:20px;}
+.arrow-l1st li { color:#000; background:url("/img/arrow.png"); list-style:none; background-repeat:no-repeat; background-position:0 5px; padding-left:15px; margin-bottom:20px;}
 .arrow-l1st-white {padding:0; margin:0;}
-.arrow-l1st-white li { color:#666; background:url("<?php echo $baseUrl;?>/img/white-arrow.png"); list-style:none; background-repeat:no-repeat; background-position:0 5px; padding-left:15px; margin-bottom:20px;}
+.arrow-l1st-white li { color:#666; background:url("/img/white-arrow.png"); list-style:none; background-repeat:no-repeat; background-position:0 5px; padding-left:15px; margin-bottom:20px;}
 .back-box{background:#50c2bb; border-left:6px solid #0057a4; padding:20px 0 20px 0; margin-bottom:15px;}
 .back-box h2 {background: #0057a4;color: #50c2bb;/*text-transform: uppercase;*/margin-top: 0px;padding: 11px;width: auto;display: inline-block;font-size: 24px !important;}
 .back-box ul {margin:20px;}
@@ -306,7 +306,7 @@ a:focus, a:hover {
 
 .arrow-icon {
 color: #000;
-    background: {{asset('public/img/arrow.png')}};
+    background: url(/img/arrow.png);
     list-style: none;
     background-repeat: no-repeat;
     background-position: 0 7px;
