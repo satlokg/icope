@@ -317,10 +317,7 @@ color: #000;
  text-align:justify !important;
 }
 </style>
-<?php echo $this->Html->css('custom_stylesheet');?>
-<?php echo $this->Html->css('bootstrap.min');?>
-<?php echo $this->Html->script('jquery-2.2.4.min'); ?>
-<?php echo $this->Html->script('bootstrap.min'); ?>
+
 
 <script>
 $(document).ready(function() {
