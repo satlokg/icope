@@ -67,3 +67,6 @@ Route::get('/getAssessmentById/{id?}', [App\Http\Controllers\admin\AssessmentCon
 
 
 
+
+Route::get('pages/who/{user_id?}/{device?}', [App\Http\Controllers\PagesController::class, 'who'])->name('who');
+
