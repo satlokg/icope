@@ -306,7 +306,7 @@ a:focus, a:hover {
 
 .arrow-icon {
 color: #000;
-    background: url(<?php echo $baseUrl;?>/img/arrow.png);
+    background: {{asset('public/img/arrow.png')}};
     list-style: none;
     background-repeat: no-repeat;
     background-position: 0 7px;
