@@ -241,7 +241,7 @@ public function replace_key($arr, $oldkey, $newkey) {
             $Darray[$i]['title'] = ($userD->title) ? $userD->title : '';
             $Darray[$i]['displayOrder'] = ($userD->displayOrder) ? $userD->displayOrder : '';
             $Darray[$i]['url'] = URL('/') . "/pages/who/" . $userD->id . "/" . $DeviceID;
-            $Darray[$i]['PPTURL'] = URL('/') . "/PPT/PPT_" . $userD->id . ".mp4";
+            $Darray[$i]['PPTURL'] = URL('/') . "/ppt/PPT_" . $userD->id . ".mp4";
             $Darray[$i]['icon'] = URL('/') . "/icon/Module_" . $userD->id . ".png";
             $Darray[$i]['roleplay'] = ($userD->roleplay) ? $userD->roleplay : '';
             $Darray[$i]['created'] = ($userD->created) ? date('Y-m-d H:i:s', strtotime($userD->created)) : '';
