@@ -40,7 +40,7 @@ text-transform: uppercase; color: #FFF; font-size: 17px;}
 <body>
 <div class="main-container">
 <div class="module-name"><!--Module 1--></div>
-<form id="contactForm1" accept="<?php echo $this->Url->build();?>pages/assestment2" method="post">
+<form id="contactForm1" accept="<?php echo URL::to('/');?>pages/assestment2" method="post">
 <input type="hidden" value="<?php echo $moduleID;?>" name="moduleID">
 <input type="hidden" value="<?php echo $deviceToken;?>" name="userID">
 	<?php $i=1;
@@ -77,12 +77,12 @@ text-transform: uppercase; color: #FFF; font-size: 17px;}
 
 		<div class="submit-button"><input type="submit" class="submit" value="Submit" style="background: #2cc6d2"></div>
 		
-		<a href="<?php echo $this->Url->build('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
+		<a href="<?php echo URL::to('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
 		<div class="submit-button"><input class="submit" value="Cancel" style="text-align: center;" readonly="true"></div>
 		</a>
 		
 		<!--<div class="btnnew">
-		<a href="<?php echo $this->Url->build('/');?>pages/who/<?php echo $moduleID;?>">Cancel</a>
+		<a href="<?php echo URL::to('/');?>pages/who/<?php echo $moduleID;?>">Cancel</a>
 		</div>-->
 </form>
 </div>
@@ -155,7 +155,7 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                    <a href="<?php echo $this->Url->build('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
+                    <a href="<?php echo URL::to('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
 										<button type="button" class="btn btn-primary">OK, Got it!</button>
 										</a>
                 </div>
@@ -178,7 +178,7 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <!--<a href="<?php echo $this->Url->build('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
+                    <!--<a href="<?php echo URL::to('/');?>pages/who/<?php echo $moduleID;?>/<?php echo $deviceToken; ?>">
 										<button type="button" class="btn btn-primary">OK, Got it!</button>
 										</a>-->
                 </div>
