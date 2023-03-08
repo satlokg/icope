@@ -41,6 +41,7 @@ text-transform: uppercase; color: #FFF; font-size: 17px;}
 <div class="main-container">
 <div class="module-name"><!--Module 1--></div>
 <form id="contactForm1" accept="<?php echo URL::to('/');?>pages/assestment2" method="post">
+    @csrf
 <input type="hidden" value="<?php echo $moduleID;?>" name="moduleID">
 <input type="hidden" value="<?php echo $deviceToken;?>" name="userID">
 	<?php $i=1;
