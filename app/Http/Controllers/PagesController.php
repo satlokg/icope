@@ -21,7 +21,7 @@ class PagesController extends Controller
         }
         if ($request->post()) {
             $moduleIID = $request->moduleID - 1;
-            $assestments = Assessment::where('moduleId',$moduleIID)->toArray();
+            $assestments = Assessment::where('moduleId',$moduleIID)->get();
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
@@ -47,7 +47,7 @@ class PagesController extends Controller
             echo "Thanks for submitting the assessment. You have answered " . $CorrectAnswer . " correct answers out of " . $totalQuestion;
             die;
         }
-        $assestments = Assessment::where('moduleId',$module)->toArray();
+        $assestments = Assessment::where('moduleId',$module)->get();
         $moduleID = $module + 1;
         return view('pages.assessment', compact('assestments','deviceToken','moduleID'));
         
@@ -61,7 +61,7 @@ class PagesController extends Controller
             fwrite($fp, $req_dump);
             fclose($fp);
             $moduleIID = $request->moduleID - 1;
-            $assestments = Assessment::where('moduleId',$moduleIID)->toArray();
+            $assestments = Assessment::where('moduleId',$moduleIID)->get();
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
@@ -87,7 +87,7 @@ class PagesController extends Controller
             echo "Thanks for submitting the assessment. You have answered " . $CorrectAnswer . " correct answers out of " . $totalQuestion;
             die;
         }
-        //$assestments = $this->Assestments->find('all')->where(['Assestments.moduleId' => $MODULEID])->toArray();
+        //$assestments = $this->Assestments->find('all')->where(['Assestments.moduleId' => $MODULEID]);
         ////echo "<pre>"; print_r($assestments); die;
         //$this->set('assestments', $assestments);
         //$this->set('deviceToken', $deviceToken);
