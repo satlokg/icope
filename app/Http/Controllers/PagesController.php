@@ -21,7 +21,7 @@ class PagesController extends Controller
         if (empty($deviceToken)) {
             return redirect()->to('/pages/who/' . ($module + 1));
         }
-        if ($request->post()) {
+        if($request->isMethod('post')){
             $moduleIID = $request->moduleID - 1;
             $assestments = Assessment::where('moduleId',$moduleIID)->get();
             $totalQuestion = 0;
@@ -56,7 +56,7 @@ class PagesController extends Controller
     }
     public function assestment2(Request $request, $MODULEID = NULL, $deviceToken = NULL) {
        
-        if ($request->post()) {
+        if($request->isMethod('post')){
             $req_dump = '-------------------------' . date('Y-m-d H:i:s') . '---------------------';
             $req_dump .= print_r($request->all(), TRUE);
             $fp = fopen('request.log', 'a');
@@ -103,13 +103,13 @@ class PagesController extends Controller
         $layoutTitle = 'Questionnaire';
         $questionnaireType = 'pre';
         $deviceToken = $request->query('device-token');
-        $country_code = $request->query('country_code');
+        $countryCode = $request->query('country_code');
         if ($request->query('questionnaire-type') && $request->query('questionnaire-type') == 'post') {
             $questionnaireType = 'post';
         }
-
-        if ($request->post()) {
-            $assestments = Assessment::where('is_first_question',1)->orderBy('moduleId','asc')->orderBy('id', 'asc')->get();
+        $assestments = Assessment::where('is_first_question',1)->orderBy('moduleId','asc')->orderBy('id', 'asc')->get();
+        if($request->isMethod('post')){
+            
             $totalQuestion = 0;
             $CorrectAnswer = 0;
             foreach ($assestments as $assestment) {
@@ -149,7 +149,10 @@ class PagesController extends Controller
             //echo "<pre>"; print_r($this->request->data); die;
             //echo "Thanks for submitting the assessment. You have answered " . $CorrectAnswer . " correct answers out of " . $totalQuestion;
             //die;
+       
+        
         }
+        return view('pages.questionnaire', compact('assestments','deviceToken','questionnaireType','countryCode'));
     }
     public function questionnairepreresult(Request $request) {
 
