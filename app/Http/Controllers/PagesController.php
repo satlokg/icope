@@ -103,7 +103,7 @@ class PagesController extends Controller
         $layoutTitle = 'Questionnaire';
         $questionnaireType = 'pre';
         $deviceToken = $request->query('device-token');
-        $countryCode = $request->query('country_code');
+        $countryCode = ($request->query('country_code'))??'';
         if ($request->query('questionnaire-type') && $request->query('questionnaire-type') == 'post') {
             $questionnaireType = 'post';
         }
@@ -173,7 +173,7 @@ class PagesController extends Controller
             $type_id = base64_decode($request->query('message'));
             $result = Answer::where('type', 'questionnaire')->where('type_id',$type_id)->first();
             $assestments = Assessment::where('is_first_question', 1)->orderBy('moduleId','asc')->orderBy('id', 'asc')->get();
-            return view('pages.questionnairepostresult', compact('assestments'));
+            return view('pages.questionnairepostresult', compact('assestments','result'));
         }
         return view('pages.questionnairepostresult', compact('result'));
     }
