@@ -70,6 +70,10 @@ Route::get('/getAssessmentById/{id?}', [App\Http\Controllers\admin\AssessmentCon
 
 Route::get('pages/who/{user_id?}/{device?}', [App\Http\Controllers\PagesController::class, 'who'])->name('who');
 Route::match(['get', 'post'],'pages/assestment/{module?}/{device?}', [App\Http\Controllers\PagesController::class, 'assestment'])->name('assestment');
+Route::match(['get', 'post'],'pages/questionnaire', [App\Http\Controllers\PagesController::class, 'questionnaire'])->name('questionnaire');
+Route::match(['get', 'post'],'pages/questionnairepreresult', [App\Http\Controllers\PagesController::class, 'questionnairepreresult'])->name('questionnairepreresult');
+Route::match(['get', 'post'],'pages/questionnairepostresult', [App\Http\Controllers\PagesController::class, 'questionnairepostresult'])->name('questionnairepostresult');
+
 
 
 
