@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Str;
@@ -60,6 +61,7 @@ public function validateOtp(Request $req){
     $validator = Validator::make($req->all(), [
         'email' => 'required|email',
         'otp' => 'required',
+        'device_id' => 'required',
     ]);
     
     if ($validator->fails()) {
@@ -67,35 +69,40 @@ public function validateOtp(Request $req){
 
     }
     $p = User::select('id','email','is_pretest_completed','created_at')->where('email', $req->email)->where('email_otp', $req->otp)->first();
-    if(strtotime($p->created_at) < strtotime(now())) 
+    if ($p) {
+        if(strtotime($p->created_at) < strtotime(now())) 
         {
             return response()->json(['success' => 'failed', 'message' => 'Otp Expired '], 200);
         }
-    if ($p) {
-
         $p->email_otp = '';
         $p->save();
         Auth::loginUsingId($p->id, TRUE);
         $user=['is_pretest_completed'=>($p->is_pretest_completed==1)?true:false];
         $p->country='';
-        if ($p->api_token !== NULL) {
-            $token['token'] = $p->api_token;
+        $token = UserToken::firstOrNew(
+            ['device_id' =>  request('device_id')],
+            ['user_id' => Auth::user()->id]
+        );
+         
+        $token->save();
+        if ($token->api_token !== NULL) {
+            $token['token'] = $token->api_token;
         } else {
-            $token['token'] = self::updateToken();
+            $token['token'] = self::updateToken($req->device_id);
         }
         return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','user'=>$user,'token'=>$token['token']], 200);
     } else {
         return response()->json(['success' => 0, 'message' => 'Wrong Otp'], 200);
     }
 }
-static function updateToken() {
+static function updateToken($device_id) {
     $token = Str::random(60);
-    $user = User::find(Auth::user()->id);
-    $user->forceFill([
-        'api_token' => hash('sha256', $token),
-    ])->save();
+    $tkn = UserToken::where('device_id',$device_id)->where('user_id',Auth::user()->id)->first();
+    $tkn->api_token = hash('sha256', $token);
+    $tkn->expire_at = now()->addMinutes(1);
+    $tkn->save();
 
-    return ['token' => $user->api_token];
+    return ['token' => $tkn->api_token];
 }
 
 }
