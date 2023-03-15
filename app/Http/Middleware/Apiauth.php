@@ -19,7 +19,10 @@ class Apiauth
     {
         $token = $request->header('x-auth-key');
         //dd($request->header());
-        $user = User::where('api_token', str_replace('Bearer ', '', $token))->whereDate('expire_at', '<', now())->first();
+        $did = $request->device_id;
+        $user = User::where('api_token', str_replace('Bearer ', '', $token))->whereHas('token', function($q) use($did){
+            $q->where('device_id',  $did)->whereDate('expire_at', '<', now());
+        })->first();
         if ($user) {
             Auth::login($user);
         }

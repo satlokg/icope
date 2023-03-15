@@ -99,10 +99,25 @@ static function updateToken($device_id) {
     $token = Str::random(60);
     $tkn = UserToken::where('device_id',$device_id)->where('user_id',Auth::user()->id)->first();
     $tkn->api_token = hash('sha256', $token);
-    $tkn->expire_at = now()->addMinutes(1);
+    $tkn->expire_at = now()->addMinutes(60);
     $tkn->save();
 
     return ['token' => $tkn->api_token];
 }
+public function refreshToken(Request $req) {
+    $token = Str::random(60);
+    $tkn = UserToken::where('device_id',$req->device_id)->where('api_token',$req->token)->first();
+    if($tkn){
+        $tkn->api_token = hash('sha256', $token);
+        $tkn->expire_at = now()->addMinutes(1);
+        $tkn->save();
+        return response()->json(['status' => 'success','success' => true, 'message' => 'token refreshed','token'=>$tkn->api_token       ], 200);
 
+    }else{
+        return response()->json(['status' => 'failed', 'message' => 'Unauthenticate'], 401);
+    }
+    
+
+    return ['token' => $tkn->api_token];
+}
 }

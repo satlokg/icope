@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::post('/users/sendOTP', [LoginController::class, 'getOtp']);
 Route::post('/users/validateOTP', [LoginController::class, 'validateOtp']);
+Route::post('/users/refreshToken', [LoginController::class, 'refreshToken']);
+
 Route::group(['middleware' => 'apiauth'], function (){
 Route::post('/device/v1/pg/enlist', [AssessmentController::class, 'modulelist']);
 Route::post('/pages/getAssessmentQuestions', [AssessmentController::class, 'getAssessment']);
