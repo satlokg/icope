@@ -81,16 +81,20 @@ public function validateOtp(Request $req){
         $p->country='';
         $token = UserToken::firstOrNew(
             ['device_id' =>  request('device_id')],
-            ['user_id' => Auth::user()->id]
+            ['user_id' => Auth::user()->id],
+            ['expire_at' => now()->addMinutes(env('EXPIRE_TIME'))]
+            
         );
          
         $token->save();
         if ($token->api_token !== NULL) {
-            $token['token'] = $token->api_token;
+            $tkn['token'] = $token->api_token;
+            $tkn['expire_at'] = $token->expire_at;
+            
         } else {
-            $token['token'] = self::updateToken($req->device_id);
+            $tkn = self::updateToken($req->device_id);
         }
-        return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','user'=>$user,'token'=>$token['token']], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'Otp verified','user'=>$user,'token'=>$tkn], 200);
     } else {
         return response()->json(['success' => 0, 'message' => 'Wrong Otp'], 200);
     }
@@ -102,16 +106,18 @@ static function updateToken($device_id) {
     $tkn->expire_at = now()->addMinutes(60);
     $tkn->save();
 
-    return ['token' => $tkn->api_token];
+    return ['token' => $tkn->api_token,'expire_at'=>$tkn->expire_at];
 }
 public function refreshToken(Request $req) {
     $token = Str::random(60);
-    $tkn = UserToken::where('device_id',$req->device_id)->where('api_token',$req->token)->first();
+    $tkn = UserToken::where('device_id',$req->device_id)->where('api_token',$req->token)->whereHas('user', function($q) use($req){
+        $q->where('email',$req->email);
+    })->first();
     if($tkn){
         $tkn->api_token = hash('sha256', $token);
-        $tkn->expire_at = now()->addMinutes(1);
+        $tkn->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
         $tkn->save();
-        return response()->json(['status' => 'success','success' => true, 'message' => 'token refreshed','token'=>$tkn->api_token       ], 200);
+        return response()->json(['status' => 'success','success' => true, 'message' => 'token refreshed','token'=>$tkn->api_token, 'expire_at'=>$tkn->expire_at ], 200);
 
     }else{
         return response()->json(['status' => 'failed', 'message' => 'Unauthenticate'], 401);
