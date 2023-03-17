@@ -21,7 +21,7 @@ class Apiauth
         //dd($request->header());
         $did = $request->device_id;
         $user = User::where('api_token', str_replace('Bearer ', '', $token))->whereHas('token', function($q) use($did){
-            $q->where('device_id',  $did)->whereDate('expire_at', '<', now());
+            $q->where('device_id',  $did)->whereDate('expire_at', '>', now());
         })->first();
         if ($user) {
             Auth::login($user);

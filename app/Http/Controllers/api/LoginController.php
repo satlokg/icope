@@ -81,6 +81,7 @@ public function validateOtp(Request $req){
         $p->country='';
         $token = UserToken::firstOrNew(
             ['device_id' =>  request('device_id')],
+            ['device_id' =>  request('device_type')],
             ['user_id' => Auth::user()->id],
             ['expire_at' => now()->addMinutes(env('EXPIRE_TIME'))]
             
