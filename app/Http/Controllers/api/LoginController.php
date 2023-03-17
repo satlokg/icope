@@ -79,12 +79,15 @@ public function validateOtp(Request $req){
         Auth::loginUsingId($p->id, TRUE);
         $user=['is_pretest_completed'=>($p->is_pretest_completed==1)?true:false];
         $p->country='';
-        $token = UserToken::firstOrNew(
-            ['user_id' => Auth::user()->id],
-            ['device_id' =>  request('device_id')]
-        );
-            $token->device_type =  request('device_type');
-            $token->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
+        
+        $token = UserToken::where('user_id',Auth::user()->id)->where('device_id',request('device_id'))->first();
+        if(!$token){
+            $token= new UserToken();
+            $token->device_type=request('device_id');
+            $token->user_id=request('user_id');
+        }
+        $token->device_type =  request('device_type');
+        $token->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
         $token->save(); 
         if ($token->api_token !== NULL) {
             $tkn['token'] = $token->api_token;
