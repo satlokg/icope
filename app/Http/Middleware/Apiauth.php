@@ -24,10 +24,9 @@ class Apiauth
         // $user = User::where('api_token', str_replace('Bearer ', '', $token))->whereHas('token', function($q) use($did){
         //     $q->where('device_id',  $did)->whereDate('expire_at', '>', now());
         // })->first();
-        $userT = UserToken::where('api_token', $token)->first();
+        $userT = UserToken::where('api_token', str_replace('Bearer ', '', $token))->whereDate('expire_at', '>', now())->first();
         if ($userT) {
-            $user= User::find($userT->user_id);
-            Auth::login($user);
+            Auth::login($userT->user);
         }
         if (Auth::check() == false) {
             return response()->json(['status' => 'failed', 'message' => 'Unauthenticate'], 401);
