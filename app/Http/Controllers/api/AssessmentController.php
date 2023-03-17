@@ -225,9 +225,23 @@ public function replace_key($arr, $oldkey, $newkey) {
         }
         if ($request->moduleId) {
             $userservices = $userservices->where('id', $request->moduleId);
-        } 
-        
-        $userservices = $userservices->get();
+            $userservices = $userservices->first();
+            $Darray['assestment'] = 0;
+            if (@$DeviceID != '') {
+                $MMOD = $userservices->id - 1;
+                $Darray['assestment'] = Answer::where('moduleId' , $MMOD)->where('userID' , $DeviceID)->count();
+            }
+            $Darray['moduleId'] = ($userservices->id) ? $userservices->id : '';
+            $Darray['name'] = ($userservices->name) ? $userservices->name : '';
+            $Darray['title'] = ($userservices->title) ? $userservices->title : '';
+            $Darray['displayOrder'] = ($userservices->displayOrder) ? $userservices->displayOrder : '';
+            $Darray['url'] = URL('/') . "/pages/who/" . $userservices->id . "/" . $DeviceID;
+            $Darray['PPTURL'] = URL('/') . "/ppt/PPT_" . $userservices->id . ".mp4";
+            $Darray['icon'] = URL('/') . "/icon/Module_" . $userservices->id . ".png";
+            $Darray['roleplay'] = ($userservices->roleplay) ? $userservices->roleplay : '';
+            $Darray['created'] = ($userservices->created) ? date('Y-m-d H:i:s', strtotime($userservices->created)) : '';
+        }else{
+            $userservices = $userservices->get();
         
         //echo "<pre>"; print_r($userservices); die;
         foreach ($userservices as $userD) {
@@ -247,6 +261,9 @@ public function replace_key($arr, $oldkey, $newkey) {
             $Darray[$i]['created'] = ($userD->created) ? date('Y-m-d H:i:s', strtotime($userD->created)) : '';
             $i++;
         }
+        }
+        
+        
         $response['status'] = "success";
         $response['data'] = ($Darray) ? $Darray : array();
         return $response;
