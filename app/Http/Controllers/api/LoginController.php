@@ -83,7 +83,7 @@ public function validateOtp(Request $req){
         $token = UserToken::where('user_id',Auth::user()->id)->where('device_id',request('device_id'))->first();
         if(!$token){
             $token= new UserToken();
-            $token->device_type=request('device_id');
+            $token->device_id=request('device_id');
             $token->user_id=Auth::user()->id;
         }
         $token->device_type =  request('device_type');
