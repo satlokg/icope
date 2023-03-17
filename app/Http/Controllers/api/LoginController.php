@@ -31,7 +31,7 @@ class LoginController extends Controller
         $otp=random_int(100000, 999999);
         if ($peaple) {
             $peaple->email_otp = $otp;
-            $peaple->created_at = now()->addMinutes(30);
+            $peaple->created_at = now()->addMinutes(600);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         } else {
@@ -39,7 +39,7 @@ class LoginController extends Controller
             $peaple->email = $req->email;
             $peaple->username = $req->email;
             $peaple->email_otp = $otp;
-            $peaple->created_at = now()->addMinutes(30);
+            $peaple->created_at = now()->addMinutes(600);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         }
