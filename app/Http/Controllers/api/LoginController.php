@@ -84,7 +84,7 @@ public function validateOtp(Request $req){
         if(!$token){
             $token= new UserToken();
             $token->device_type=request('device_id');
-            $token->user_id=request('user_id');
+            $token->user_id=Auth::user()->id;
         }
         $token->device_type =  request('device_type');
         $token->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
