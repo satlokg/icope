@@ -31,7 +31,7 @@ class LoginController extends Controller
         $otp=random_int(100000, 999999);
         if ($peaple) {
             $peaple->email_otp = $otp;
-            $peaple->created_at = now()->addMinutes(600);
+            $peaple->created_at = now()->addMinutes(30);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         } else {
@@ -39,7 +39,7 @@ class LoginController extends Controller
             $peaple->email = $req->email;
             $peaple->username = $req->email;
             $peaple->email_otp = $otp;
-            $peaple->created_at = now()->addMinutes(600);
+            $peaple->created_at = now()->addMinutes(30);
             $peaple->save();
             $this->sendOtp($req->email,$otp);
         }
@@ -88,7 +88,7 @@ public function validateOtp(Request $req){
             $token->user_id=Auth::user()->id;
         }
         $token->device_type =  request('device_type');
-        $token->expire_at = now()->addMinutes($this->exp_time_minut);
+        $token->expire_at = now()->addMinutes(30);
         $token->save(); 
         if ($token->api_token !== NULL) {
             $tkn['token'] = $token->api_token;
@@ -106,7 +106,7 @@ static function updateToken($device_id) {
     $token = Str::random(60);
     $tkn = UserToken::where('device_id',$device_id)->where('user_id',Auth::user()->id)->first();
     $tkn->api_token = hash('sha256', $token);
-    $tkn->expire_at = now()->addMinutes($this->exp_time_minut);
+    $tkn->expire_at = now()->addMinutes(30);
     $tkn->save();
 
     return ['token' => $tkn->api_token,'expire_at'=>$tkn->expire_at];
@@ -118,7 +118,7 @@ public function refreshToken(Request $req) {
     })->first();
     if($tkn){
         $tkn->api_token = hash('sha256', $token);
-        $tkn->expire_at = now()->addMinutes($this->exp_time_minut);
+        $tkn->expire_at = now()->addMinutes(30);
         $tkn->save();
         return response()->json(['status' => 'success','success' => true, 'message' => 'token refreshed','token'=>$tkn->api_token, 'expire_at'=>$tkn->expire_at ], 200);
 
