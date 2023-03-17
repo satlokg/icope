@@ -13,6 +13,7 @@ use Validator;
 class LoginController extends Controller
 {
     public $successStatus = 200;
+    public $exp_time_minut = 30;
 
 
     public function getOtp(Request $req)
@@ -87,7 +88,7 @@ public function validateOtp(Request $req){
             $token->user_id=Auth::user()->id;
         }
         $token->device_type =  request('device_type');
-        $token->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
+        $token->expire_at = now()->addMinutes($this->exp_time_minut);
         $token->save(); 
         if ($token->api_token !== NULL) {
             $tkn['token'] = $token->api_token;
@@ -105,7 +106,7 @@ static function updateToken($device_id) {
     $token = Str::random(60);
     $tkn = UserToken::where('device_id',$device_id)->where('user_id',Auth::user()->id)->first();
     $tkn->api_token = hash('sha256', $token);
-    $tkn->expire_at = now()->addMinutes(60);
+    $tkn->expire_at = now()->addMinutes($this->exp_time_minut);
     $tkn->save();
 
     return ['token' => $tkn->api_token,'expire_at'=>$tkn->expire_at];
@@ -117,7 +118,7 @@ public function refreshToken(Request $req) {
     })->first();
     if($tkn){
         $tkn->api_token = hash('sha256', $token);
-        $tkn->expire_at = now()->addMinutes(env('EXPIRE_TIME'));
+        $tkn->expire_at = now()->addMinutes($this->exp_time_minut);
         $tkn->save();
         return response()->json(['status' => 'success','success' => true, 'message' => 'token refreshed','token'=>$tkn->api_token, 'expire_at'=>$tkn->expire_at ], 200);
 
