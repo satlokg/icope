@@ -219,11 +219,7 @@ public function replace_key($arr, $oldkey, $newkey) {
         $Darray = array();
         $i = 0;
         $userservices = Module::orderBy('displayOrder', 'asc')->where('status', 1);
-        if(@$keyword != ''){
-            $userservices = $userservices->orWhere('description', 'LIKE', "%{$keyword}%")
-            ->orWhere('title', 'LIKE', "%{$keyword}%");
-            
-        }
+        
         if ($request->moduleId) {
             $userservices = $userservices->where('id', $request->moduleId);
             $userservices = $userservices->first();
@@ -242,6 +238,12 @@ public function replace_key($arr, $oldkey, $newkey) {
             $Darray['roleplay'] = ($userservices->roleplay) ? $userservices->roleplay : '';
             $Darray['created'] = ($userservices->created) ? date('Y-m-d H:i:s', strtotime($userservices->created)) : '';
         }else{
+            if(@$keyword != ''){
+                $userservices = $userservices->where('name', 'Like', '%' . $keyword . '%')
+                ->orWhere('title', 'LIKE',  '%' . $keyword . '%')
+                ->orWhere('description', 'LIKE',  '%' . $keyword . '%');
+                
+            }
             $userservices = $userservices->get();
         
         //echo "<pre>"; print_r($userservices); die;
