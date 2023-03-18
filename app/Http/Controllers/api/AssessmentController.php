@@ -220,7 +220,8 @@ public function replace_key($arr, $oldkey, $newkey) {
         $i = 0;
         $userservices = Module::orderBy('displayOrder', 'asc')->where('status', 1);
         if(@$keyword != ''){
-            $userservices = $userservices->orWhere('description', 'LIKE', "%{$keyword}%");
+            $userservices = $userservices->orWhere('description', 'LIKE', "%{$keyword}%")
+            ->orWhere('title', 'LIKE', "%{$keyword}%");
             
         }
         if ($request->moduleId) {
