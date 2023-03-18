@@ -319,8 +319,8 @@ color: #000;
 
 <link href="{{ asset('css/custom_stylesheet.css') }}" rel="stylesheet">
 <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-<script src="{{ asset('js/jquery-2.2.4.min.js') }}" defer></script>
-<script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+<script src="{{ asset('js/jquery-2.2.4.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 
 <script>
