@@ -5,6 +5,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Untitled Document</title>
   <link href="https://fonts.googleapis.com/css2?family=Arial:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="{{ asset('css/custom_stylesheet.css') }}" rel="stylesheet">
+<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/jquery-2.2.4.min.js') }}" defer></script>
+<script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
 <style>
 *{margin:0; padding:0}
 body {font-family: 'Roboto', sans-serif; font-size:14px; color:#333; background:#fff;}
@@ -317,10 +321,7 @@ color: #000;
 }
 </style>
 
-<link href="{{ asset('css/custom_stylesheet.css') }}" rel="stylesheet">
-<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-<script src="{{ asset('js/jquery-2.2.4.min.js') }}" defer></script>
-<script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+
 
 
 <script>
