@@ -22,6 +22,7 @@ class PagesController extends Controller
             return redirect()->to('/pages/who/' . ($module + 1));
         }
         if($request->isMethod('post')){
+            $request->request->remove('_token');
             $moduleIID = $request->moduleID - 1;
             $assestments = Assessment::where('moduleId',$moduleIID)->get();
             $totalQuestion = 0;
